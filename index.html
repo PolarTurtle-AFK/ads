@@ -64,12 +64,14 @@
             text-align: center;
             font-size: 0.8rem;
             letter-spacing: 2px;
+            border-left: 1px solid #1a1a1a;
+            border-right: 1px solid #1a1a1a;
         }
 
         .content {
             flex: 1;
             padding: 20px;
-            min-width: 0; /* Previene desborde en flex */
+            min-width: 0; 
         }
 
         /* Grid Optimizado */
@@ -113,7 +115,7 @@
         .card b { display: block; margin-bottom: 4px; font-size: 0.95rem; }
         .card small { color: var(--text-dim); text-transform: uppercase; font-size: 0.75rem; }
 
-        /* Modal Mejorado (Full Scrollable) */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -132,11 +134,10 @@
             padding: 0;
             max-width: 550px;
             width: 100%;
-            max-height: 90vh; /* No excede la pantalla */
-            overflow-y: auto; /* Scroll interno */
+            max-height: 90vh;
+            overflow-y: auto;
             border-radius: 12px;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .modal-body { padding: 25px; text-align: center; }
@@ -148,7 +149,6 @@
             object-fit: cover;
         }
 
-        /* Botones */
         .btn-group {
             display: flex;
             flex-direction: column;
@@ -170,12 +170,6 @@
         button:hover { background: #1a52a1; }
         .btn-secondary { background: #333; }
         .btn-secondary:hover { background: #444; }
-
-        /* Scrollbar Personalizada */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0b0b0b; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #444; }
 
         @media(max-width: 900px) {
             .ads { display: none; }
@@ -199,16 +193,14 @@
 </div>
 
 <div class="layout">
-    
-    <div class="ads"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6387959165694492"
-     crossorigin="anonymous"></script></div>
+    <div class="ads">PUBLICIDAD</div>
     
     <div class="content">
         <p id="count" style="color:#777; font-size: 0.9rem;"></p>
         <div id="grid" class="grid"></div>
     </div>
 
-    <div class="ads">ESPACIO PUBLICIDAD</div>
+    <div class="ads">PUBLICIDAD</div>
 </div>
 
 <div id="modal" class="modal">
@@ -270,12 +262,12 @@
         document.getElementById("m_download").href = item.download;
         
         modal.style.display = "flex";
-        document.body.style.overflow = "hidden"; // Bloquea scroll de fondo
+        document.body.style.overflow = "hidden";
     }
 
     function closeModal() {
         modal.style.display = "none";
-        document.body.style.overflow = "auto"; // Libera scroll
+        document.body.style.overflow = "auto";
     }
 
     document.getElementById("closeBtn").onclick = closeModal;
@@ -303,9 +295,10 @@
     search.addEventListener("input", update);
     filter.addEventListener("change", update);
 
-    // Inicio
     loadItems(items);
 </script>
 
+<script src="https://pl28877940.effectivegatecpm.com/44/a0/d4/44a0d495e62bcbcba350e9c075027733.js"></script>
+
 </body>
-</html>
+</html>2
