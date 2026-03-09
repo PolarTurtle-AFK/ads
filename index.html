@@ -1,43 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
-<title>Descargas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script>
+<title>Biblioteca de Juegos</title>
 
-const items = [
+<meta name="description" content="Descargar juegos gratis">
+<meta name="keywords" content="juegos, descargar juegos, mods">
 
-{
-name:"Juego 1",
-image:"img/asombrao.jpg",
-description:"Juego 1",
-download:"https://google.com"
-},
-
-{
-name:"Juego 2",
-image:"img/asombrao.jpg",
-description:"Juego 2",
-download:"https://google.com"
-},
-
-{
-name:"Juego 3",
-image:"img/asombrao.jpg",
-description:"Juego 3",
-download:"https://google.com"
-}
-
-];
-
-</script>
+<link rel="icon" href="img/icono.png">
 
 </head>
 
 <body bgcolor="#0b0b0b" text="white" style="font-family:Arial;margin:0;">
 
-<table width="100%" height="100%">
+
+<!-- anuncio superior -->
+<div style="text-align:center;margin:20px;">
+ANUNCIO HORIZONTAL
+</div>
+
+
+<table width="100%">
 <tr>
 
 <!-- anuncio izquierda -->
@@ -46,14 +32,17 @@ download:"https://google.com"
 ANUNCIO ADS
 </td>
 
+
 <!-- contenido -->
 <td align="center">
 
 <h1>Biblioteca de Descargas</h1>
 
+<p id="count"></p>
+
 <input 
 type="text"
-placeholder="Buscar..."
+placeholder="Buscar juego..."
 id="search"
 style="padding:10px;width:300px;margin-bottom:20px;"
 onkeyup="searchItems()"
@@ -65,6 +54,7 @@ onkeyup="searchItems()"
 
 </td>
 
+
 <!-- anuncio derecha -->
 <td width="200" valign="top" align="center">
 <br><br>
@@ -75,7 +65,7 @@ ANUNCIO ADS
 </table>
 
 
-<!-- PANEL GRANDE -->
+<!-- MODAL -->
 
 <div id="modal"
 style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000000dd;align-items:center;justify-content:center;">
@@ -88,11 +78,21 @@ style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;backgroun
 
 <p id="m_desc"></p>
 
+<p id="m_category"></p>
+
+<p id="m_size"></p>
+
+<p id="m_version"></p>
+
 <a id="m_download" target="_blank">
 <button style="padding:10px 20px;background:#0b2a55;color:white;border:none;">
 Descargar
 </button>
 </a>
+
+<br><br>
+
+<button onclick="copyLink()">Copiar link</button>
 
 <br><br>
 
@@ -104,6 +104,52 @@ Descargar
 
 
 <script>
+
+
+/* JUEGOS (AGREGA MÁS AQUÍ) */
+
+const items = [
+
+{
+name:"Juego 1",
+image:"img/asombrao.jpg",
+description:"Juego 1",
+download:"https://google.com",
+category:"Accion",
+size:"",
+version:""
+},
+
+{
+name:"Juego 2",
+image:"img/asombrao.jpg",
+description:"Juego 2",
+download:"https://google.com",
+category:"Aventura",
+size:"",
+version:""
+},
+
+{
+name:"Juego 3",
+image:"img/asombrao.jpg",
+description:"Juego 3",
+download:"https://google.com",
+category:"RPG",
+size:"",
+version:""
+}
+
+];
+
+
+/* CONTADOR */
+
+document.getElementById("count").innerText =
+items.length + " juegos disponibles";
+
+
+/* GRID */
 
 const grid = document.getElementById("grid");
 
@@ -121,24 +167,35 @@ div.style.background="#111";
 div.style.padding="10px";
 div.style.cursor="pointer";
 div.style.width="200px";
+div.style.transition="0.2s";
 
 div.innerHTML=`
 
-<img src="${item.image}" width="200">
+<img loading="lazy" src="${item.image}" width="200">
 
 <br><br>
 
 <b>${item.name}</b>
 
+<br>
+
+<small>${item.category}</small>
+
 `;
 
 div.onclick=()=>openModal(item);
+
+div.onmouseover=()=>div.style.transform="scale(1.05)";
+div.onmouseout=()=>div.style.transform="scale(1)";
 
 grid.appendChild(div);
 
 });
 
 }
+
+
+/* MODAL */
 
 function openModal(item){
 
@@ -147,15 +204,36 @@ document.getElementById("modal").style.display="flex";
 m_title.innerText=item.name;
 m_img.src=item.image;
 m_desc.innerText=item.description;
+m_category.innerText="Categoria: "+item.category;
+m_size.innerText="Tamaño: "+item.size;
+m_version.innerText="Version: "+item.version;
+
 m_download.href=item.download;
 
 }
+
+
+/* CERRAR */
 
 function closeModal(){
 
 document.getElementById("modal").style.display="none";
 
 }
+
+
+/* CERRAR CLICK FUERA */
+
+document.getElementById("modal").onclick=function(e){
+
+if(e.target.id==="modal"){
+closeModal();
+}
+
+}
+
+
+/* BUSCADOR */
 
 function searchItems(){
 
@@ -167,7 +245,20 @@ loadItems(filtered);
 
 }
 
+
+/* COPIAR LINK */
+
+function copyLink(){
+
+navigator.clipboard.writeText(m_download.href);
+
+alert("Link copiado");
+
+}
+
+
 loadItems(items);
+
 
 </script>
 
