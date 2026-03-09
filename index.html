@@ -5,84 +5,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Biblioteca de Juegos</title>
+<title>Biblioteca de Archivos</title>
 
-<meta name="description" content="Descargar juegos gratis">
-<meta name="keywords" content="juegos, descargar juegos, mods">
+<style>
 
-<link rel="icon" href="img/icono.png">
+body{
+margin:0;
+font-family:Arial;
+background:#0b0b0b;
+color:white;
+}
+
+/* header */
+
+.header{
+text-align:center;
+padding:20px;
+}
+
+/* layout */
+
+.layout{
+display:flex;
+}
+
+/* anuncios */
+
+.ads{
+width:180px;
+text-align:center;
+padding-top:20px;
+color:#777;
+}
+
+/* contenido */
+
+.content{
+flex:1;
+padding:20px;
+text-align:center;
+}
+
+/* grid */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+/* card */
+
+.card{
+background:#111;
+padding:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card img{
+width:100%;
+height:140px;
+object-fit:cover;
+}
+
+/* modal */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000000dd;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#111;
+padding:25px;
+max-width:400px;
+width:90%;
+text-align:center;
+}
+
+.modal img{
+width:100%;
+}
+
+/* mobile */
+
+@media(max-width:900px){
+
+.ads{
+display:none;
+}
+
+}
+
+</style>
 
 </head>
 
-<body bgcolor="#0b0b0b" text="white" style="font-family:Arial;margin:0;">
+<body>
 
+<div class="header">
 
-<!-- anuncio superior -->
-<div style="text-align:center;margin:20px;">
-ANUNCIO HORIZONTAL
+<h1>Biblioteca de Archivos</h1>
+
+<input
+id="search"
+placeholder="Buscar..."
+style="padding:10px;width:220px"
+>
+
+<select id="filter" style="padding:10px">
+<option value="all">Todos</option>
+<option value="Juego">Juegos</option>
+<option value="Programa">Programas</option>
+<option value="Archivo">Archivos</option>
+</select>
+
 </div>
 
 
-<table width="100%">
-<tr>
+<div class="layout">
 
-<!-- anuncio izquierda -->
-<td width="200" valign="top" align="center">
-<br><br>
-ANUNCIO ADS
-</td>
+<div class="ads">
+ANUNCIO
+</div>
 
 
-<!-- contenido -->
-<td align="center">
-
-<h1>Biblioteca de Descargas</h1>
+<div class="content">
 
 <p id="count"></p>
 
-<input 
-type="text"
-placeholder="Buscar juego..."
-id="search"
-style="padding:10px;width:300px;margin-bottom:20px;"
-onkeyup="searchItems()"
->
+<div id="grid" class="grid"></div>
 
-<br>
-
-<div id="grid"></div>
-
-</td>
+</div>
 
 
-<!-- anuncio derecha -->
-<td width="200" valign="top" align="center">
-<br><br>
-ANUNCIO ADS
-</td>
+<div class="ads">
+ANUNCIO
+</div>
 
-</tr>
-</table>
+</div>
 
 
-<!-- MODAL -->
+<!-- modal -->
 
-<div id="modal"
-style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000000dd;align-items:center;justify-content:center;">
+<div id="modal" class="modal">
 
-<div style="background:#111;padding:30px;width:400px;text-align:center;">
+<div class="modal-content">
 
 <h2 id="m_title"></h2>
 
-<img id="m_img" width="100%">
+<img id="m_img">
 
 <p id="m_desc"></p>
 
-<p id="m_category"></p>
-
-<p id="m_size"></p>
-
-<p id="m_version"></p>
+<p id="m_type"></p>
 
 <a id="m_download" target="_blank">
 <button style="padding:10px 20px;background:#0b2a55;color:white;border:none;">
@@ -92,11 +181,11 @@ Descargar
 
 <br><br>
 
-<button onclick="copyLink()">Copiar link</button>
+<button id="copyBtn">Copiar link</button>
 
 <br><br>
 
-<button onclick="closeModal()">Cerrar</button>
+<button id="closeBtn">Cerrar</button>
 
 </div>
 
@@ -105,53 +194,59 @@ Descargar
 
 <script>
 
+/* ARCHIVOS */
 
-/* JUEGOS (AGREGA MÁS AQUÍ) */
-
-const items = [
+const items=[
 
 {
 name:"Juego 1",
 image:"img/asombrao.jpg",
-description:"Juego 1",
+description:"Juego divertido",
 download:"https://google.com",
-category:"Accion",
-size:"",
-version:""
+type:"Juego"
 },
 
 {
-name:"Juego 2",
-image:"img/asombrao.jpg",
-description:"Juego 2",
+name:"Editor Texto",
+image:"img/editor.jpg",
+description:"Editor simple",
 download:"https://google.com",
-category:"Aventura",
-size:"",
-version:""
+type:"Programa"
 },
 
 {
-name:"Juego 3",
-image:"img/asombrao.jpg",
-description:"Juego 3",
+name:"Pack Texturas",
+image:"img/texturas.jpg",
+description:"Texturas HD",
 download:"https://google.com",
-category:"RPG",
-size:"",
-version:""
+type:"Archivo"
 }
 
 ];
 
 
-/* CONTADOR */
+/* elementos */
 
-document.getElementById("count").innerText =
-items.length + " juegos disponibles";
+const grid=document.getElementById("grid");
+const search=document.getElementById("search");
+const filter=document.getElementById("filter");
+
+const modal=document.getElementById("modal");
+
+const m_title=document.getElementById("m_title");
+const m_img=document.getElementById("m_img");
+const m_desc=document.getElementById("m_desc");
+const m_type=document.getElementById("m_type");
+const m_download=document.getElementById("m_download");
 
 
-/* GRID */
+/* contador */
 
-const grid = document.getElementById("grid");
+document.getElementById("count").textContent=
+items.length+" archivos disponibles";
+
+
+/* cargar */
 
 function loadItems(list){
 
@@ -159,19 +254,13 @@ grid.innerHTML="";
 
 list.forEach(item=>{
 
-const div=document.createElement("div");
+const card=document.createElement("div");
 
-div.style.display="inline-block";
-div.style.margin="15px";
-div.style.background="#111";
-div.style.padding="10px";
-div.style.cursor="pointer";
-div.style.width="200px";
-div.style.transition="0.2s";
+card.className="card";
 
-div.innerHTML=`
+card.innerHTML=`
 
-<img loading="lazy" src="${item.image}" width="200">
+<img loading="lazy" src="${item.image}">
 
 <br><br>
 
@@ -179,86 +268,89 @@ div.innerHTML=`
 
 <br>
 
-<small>${item.category}</small>
+<small>${item.type}</small>
 
 `;
 
-div.onclick=()=>openModal(item);
+card.onclick=()=>openModal(item);
 
-div.onmouseover=()=>div.style.transform="scale(1.05)";
-div.onmouseout=()=>div.style.transform="scale(1)";
-
-grid.appendChild(div);
+grid.appendChild(card);
 
 });
 
 }
 
 
-/* MODAL */
+/* modal */
 
 function openModal(item){
 
-document.getElementById("modal").style.display="flex";
+modal.style.display="flex";
 
-m_title.innerText=item.name;
+m_title.textContent=item.name;
 m_img.src=item.image;
-m_desc.innerText=item.description;
-m_category.innerText="Categoria: "+item.category;
-m_size.innerText="Tamaño: "+item.size;
-m_version.innerText="Version: "+item.version;
+m_desc.textContent=item.description;
+m_type.textContent="Tipo: "+item.type;
 
 m_download.href=item.download;
 
 }
 
 
-/* CERRAR */
-
 function closeModal(){
-
-document.getElementById("modal").style.display="none";
-
+modal.style.display="none";
 }
 
 
-/* CERRAR CLICK FUERA */
+document.getElementById("closeBtn").onclick=closeModal;
 
-document.getElementById("modal").onclick=function(e){
 
-if(e.target.id==="modal"){
+/* cerrar click fuera */
+
+modal.onclick=(e)=>{
+if(e.target===modal){
 closeModal();
 }
+};
 
-}
+
+/* copiar link */
+
+document.getElementById("copyBtn").onclick=()=>{
+
+navigator.clipboard.writeText(m_download.href);
+
+alert("Link copiado");
+
+};
 
 
-/* BUSCADOR */
+/* buscador + filtro */
 
-function searchItems(){
+function update(){
 
-let text=document.getElementById("search").value.toLowerCase();
+let text=search.value.toLowerCase();
+let type=filter.value;
 
-let filtered=items.filter(i=>i.name.toLowerCase().includes(text));
+let filtered=items.filter(i=>{
+
+let matchName=i.name.toLowerCase().includes(text);
+let matchType=(type==="all" || i.type===type);
+
+return matchName && matchType;
+
+});
 
 loadItems(filtered);
 
 }
 
 
-/* COPIAR LINK */
-
-function copyLink(){
-
-navigator.clipboard.writeText(m_download.href);
-
-alert("Link copiado");
-
-}
+search.addEventListener("input",update);
+filter.addEventListener("change",update);
 
 
 loadItems(items);
-
 
 </script>
 
