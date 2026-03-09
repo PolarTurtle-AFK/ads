@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Descargas</title>
+
+<script>
+
+const items = [
+
+{
+name:"Mod GTA HD",
+image:"https://picsum.photos/300?1",
+description:"Mod gráfico completo para GTA.",
+download:"https://google.com"
+},
+
+{
+name:"Pack Texturas",
+image:"https://picsum.photos/300?2",
+description:"Texturas HD para el juego.",
+download:"https://google.com"
+},
+
+{
+name:"Mapa Nuevo",
+image:"https://picsum.photos/300?3",
+description:"Mapa completo con nuevas zonas.",
+download:"https://google.com"
+}
+
+];
+
+</script>
+
+</head>
+
+<body bgcolor="#0b0b0b" text="white" style="font-family:Arial;margin:0;">
+
+<table width="100%" height="100%">
+<tr>
+
+<!-- anuncio izquierda -->
+<td width="200" valign="top" align="center">
+<br><br>
+ANUNCIO ADS
+</td>
+
+<!-- contenido -->
+<td align="center">
+
+<h1>Biblioteca de Descargas</h1>
+
+<input 
+type="text"
+placeholder="Buscar..."
+id="search"
+style="padding:10px;width:300px;margin-bottom:20px;"
+onkeyup="searchItems()"
+>
+
+<br>
+
+<div id="grid"></div>
+
+</td>
+
+<!-- anuncio derecha -->
+<td width="200" valign="top" align="center">
+<br><br>
+ANUNCIO ADS
+</td>
+
+</tr>
+</table>
+
+
+<!-- PANEL GRANDE -->
+
+<div id="modal"
+style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000000dd;align-items:center;justify-content:center;">
+
+<div style="background:#111;padding:30px;width:400px;text-align:center;">
+
+<h2 id="m_title"></h2>
+
+<img id="m_img" width="100%">
+
+<p id="m_desc"></p>
+
+<a id="m_download" target="_blank">
+<button style="padding:10px 20px;background:#0b2a55;color:white;border:none;">
+Descargar
+</button>
+</a>
+
+<br><br>
+
+<button onclick="closeModal()">Cerrar</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const grid = document.getElementById("grid");
+
+function loadItems(list){
+
+grid.innerHTML="";
+
+list.forEach(item=>{
+
+const div=document.createElement("div");
+
+div.style.display="inline-block";
+div.style.margin="15px";
+div.style.background="#111";
+div.style.padding="10px";
+div.style.cursor="pointer";
+div.style.width="200px";
+
+div.innerHTML=`
+
+<img src="${item.image}" width="200">
+
+<br><br>
+
+<b>${item.name}</b>
+
+`;
+
+div.onclick=()=>openModal(item);
+
+grid.appendChild(div);
+
+});
+
+}
+
+function openModal(item){
+
+document.getElementById("modal").style.display="flex";
+
+m_title.innerText=item.name;
+m_img.src=item.image;
+m_desc.innerText=item.description;
+m_download.href=item.download;
+
+}
+
+function closeModal(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+function searchItems(){
+
+let text=document.getElementById("search").value.toLowerCase();
+
+let filtered=items.filter(i=>i.name.toLowerCase().includes(text));
+
+loadItems(filtered);
+
+}
+
+loadItems(items);
+
+</script>
+
+</body>
+</html>
