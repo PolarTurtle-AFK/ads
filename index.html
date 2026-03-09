@@ -27,6 +27,7 @@ padding:20px;
 
 .layout{
 display:flex;
+min-height:100vh;
 }
 
 /* anuncios */
@@ -55,13 +56,14 @@ gap:20px;
 margin-top:20px;
 }
 
-/* card */
+/* tarjetas */
 
 .card{
 background:#111;
 padding:10px;
 cursor:pointer;
 transition:0.2s;
+border-radius:6px;
 }
 
 .card:hover{
@@ -72,6 +74,7 @@ transform:scale(1.05);
 width:100%;
 height:140px;
 object-fit:cover;
+border-radius:4px;
 }
 
 /* modal */
@@ -86,21 +89,53 @@ height:100%;
 background:#000000dd;
 justify-content:center;
 align-items:center;
+overflow:auto;
+padding:40px 10px;
 }
+
+/* contenido modal */
 
 .modal-content{
 background:#111;
 padding:25px;
-max-width:400px;
-width:90%;
+max-width:500px;
+width:95%;
 text-align:center;
+max-height:90vh;
+overflow-y:auto;
+border-radius:8px;
 }
+
+/* imagen modal */
 
 .modal img{
 width:100%;
+border-radius:6px;
 }
 
-/* mobile */
+/* texto largo */
+
+.modal-content p{
+line-height:1.5;
+word-wrap:break-word;
+}
+
+/* botones */
+
+button{
+padding:10px 20px;
+background:#0b2a55;
+color:white;
+border:none;
+cursor:pointer;
+border-radius:4px;
+}
+
+button:hover{
+background:#133c77;
+}
+
+/* móvil */
 
 @media(max-width:900px){
 
@@ -127,10 +162,12 @@ style="padding:10px;width:220px"
 >
 
 <select id="filter" style="padding:10px">
+
 <option value="all">Todos</option>
 <option value="Juego">Juegos</option>
 <option value="Programa">Programas</option>
 <option value="Archivo">Archivos</option>
+
 </select>
 
 </div>
@@ -174,9 +211,11 @@ ANUNCIO
 <p id="m_type"></p>
 
 <a id="m_download" target="_blank">
-<button style="padding:10px 20px;background:#0b2a55;color:white;border:none;">
+
+<button>
 Descargar
 </button>
+
 </a>
 
 <br><br>
@@ -201,23 +240,23 @@ const items=[
 {
 name:"Juego 1",
 image:"img/asombrao.jpg",
-description:"Juego divertido",
+description:"Juego divertido con muchas aventuras y niveles largos para probar el sistema de scroll dentro del modal cuando el contenido es grande.",
 download:"https://google.com",
 type:"Juego"
 },
 
 {
-name:"Editor Texto",
+name:"Editor de Texto",
 image:"img/editor.jpg",
-description:"Editor simple",
+description:"Programa ligero para editar texto.",
 download:"https://google.com",
 type:"Programa"
 },
 
 {
-name:"Pack Texturas",
+name:"Pack de Texturas",
 image:"img/texturas.jpg",
-description:"Texturas HD",
+description:"Texturas HD para juegos.",
 download:"https://google.com",
 type:"Archivo"
 }
@@ -246,7 +285,7 @@ document.getElementById("count").textContent=
 items.length+" archivos disponibles";
 
 
-/* cargar */
+/* cargar archivos */
 
 function loadItems(list){
 
@@ -281,7 +320,7 @@ grid.appendChild(card);
 }
 
 
-/* modal */
+/* abrir modal */
 
 function openModal(item){
 
@@ -297,10 +336,11 @@ m_download.href=item.download;
 }
 
 
+/* cerrar modal */
+
 function closeModal(){
 modal.style.display="none";
 }
-
 
 document.getElementById("closeBtn").onclick=closeModal;
 
@@ -308,9 +348,11 @@ document.getElementById("closeBtn").onclick=closeModal;
 /* cerrar click fuera */
 
 modal.onclick=(e)=>{
+
 if(e.target===modal){
 closeModal();
 }
+
 };
 
 
@@ -345,10 +387,11 @@ loadItems(filtered);
 
 }
 
-
 search.addEventListener("input",update);
 filter.addEventListener("change",update);
 
+
+/* iniciar */
 
 loadItems(items);
 
